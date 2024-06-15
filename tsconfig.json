@@ -3,9 +3,17 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@images/*": ["./assets/images/*"],
+      "@icons/*": ["./assets/icons/*"],
+      "@fonts/*": ["./assets/fonts/*"],
+      "@assets/*": ["./assets/*"],
+      "@supabaselib/*": ["./database/*"],
+      "@utils/*": ["./utils/*"],
+      "@models/*": ["./models/*"],
+      "@context/*": ["./context/*"],
+      "@constants/*": ["./constants/*"],
+      "@components/*": ["./components/*"],
+      "@/*": ["./*"]
     }
   },
   "include": [

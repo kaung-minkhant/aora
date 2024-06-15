@@ -1,0 +1,1 @@
+npx supabase stop --no-backup
