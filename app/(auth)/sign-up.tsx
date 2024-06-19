@@ -6,10 +6,12 @@ import FormField from "@components/FormField";
 import CustomButton from "@components/CustomButton";
 import { Link, router } from "expo-router";
 import { TSignUpFormData, signUpWithEmail } from "@models/index";
+import { TCustomError } from "@utils/index";
+import tw from "@utils/tailwind";
 
 const SignUp = () => {
   const [form, setForm] = useState<TSignUpFormData>({
-    username: '',
+    username: "",
     email: "",
     password: "",
   });
@@ -17,15 +19,16 @@ const SignUp = () => {
   const [errors, setErrors] = useState<Map<string, string>>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const submit = async () => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     try {
-      const userData = await signUpWithEmail(form)
+      const userData = await signUpWithEmail(form);
       setIsSubmitting(false);
       router.replace("/home");
-    } catch (error: any) {
+    } catch (_e) {
+      const error = _e as TCustomError
       console.log("Error in sign-up", error);
-      if (error.data) {
-        setErrors(error.data);
+      if (error.data?.data) {
+        setErrors(error.data.data);
       } else {
         Alert.alert("Error in sign-up " + error);
       }
@@ -33,15 +36,15 @@ const SignUp = () => {
     }
   };
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView style={tw`bg-primary h-full`}>
       <ScrollView>
-        <View className="w-full min-h-[85vh] justify-center px-4 my-6">
+        <View  style={ tw`w-full min-h-[85vh] justify-center px-4 my-6` }>
           <Image
             source={images.logo}
             resizeMode="contain"
-            className="w-[115px] h-[35px]"
+            style={tw`w-[115px] h-[35px]`}
           />
-          <Text className="text-2xl text-white font-semibold mt-10 font-psemibold">
+          <Text style={ tw`text-2xl text-white font-semibold mt-10 font-psemibold` }>
             Sign up to Aora
           </Text>
           <FormField
@@ -54,7 +57,7 @@ const SignUp = () => {
               })
             }
             otherStyles="mt-10"
-            error={errors && errors.get('username')}
+            error={errors && errors.get("username")}
           />
           <FormField
             title="Email"
@@ -67,7 +70,7 @@ const SignUp = () => {
             }
             otherStyles="mt-7"
             keyboardType="email-address"
-            error={errors && errors.get('email')}
+            error={errors && errors.get("email")}
           />
           <FormField
             title="Password"
@@ -79,7 +82,7 @@ const SignUp = () => {
               })
             }
             otherStyles="mt-7"
-            error={errors && errors.get('password')}
+            error={errors && errors.get("password")}
           />
           <CustomButton
             title="Sign Up"
@@ -87,16 +90,17 @@ const SignUp = () => {
             containerStyles="mt-7"
             loading={isSubmitting}
           />
-          <View className="justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-gray-100 font-pregular">
+          <View style={ tw`justify-center pt-5 flex-row gap-2` }>
+            <Text style={ tw`text-lg text-gray-100 font-pregular` }>
               Already have an account?
             </Text>
-            <Link
-              href={"/sign-in"}
-              className="text-lg font-psemibold text-secondary"
+            <Text
+              // href={"/sign-in"}
+              onPress={() => router.navigate('sign-in')}
+              style={tw`text-lg font-psemibold text-secondary`}
             >
               Sign In
-            </Link>
+            </Text>
           </View>
         </View>
       </ScrollView>

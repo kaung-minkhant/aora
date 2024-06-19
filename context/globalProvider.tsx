@@ -23,7 +23,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     getCurrentUser()
       .then((data) => {
         setIsLoading(false);
-        setUser(data.user);
+        setUser(data!.user);
         setIsLoggedIn(true);
         return;
       })

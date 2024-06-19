@@ -6,6 +6,8 @@ import FormField from "@components/FormField";
 import CustomButton from "@components/CustomButton";
 import { Link, router } from "expo-router";
 import { TSignInFormData, signInWithEmail } from "@models/index";
+import tw from "@utils/tailwind";
+import { TCustomError } from "@utils/index";
 
 const SignIn = () => {
   const [form, setForm] = useState<TSignInFormData>({
@@ -20,10 +22,11 @@ const SignIn = () => {
       const userData = await signInWithEmail(form);
       setIsSubmitting(false);
       router.replace("/home");
-    } catch (error: any) {
+    } catch (_e) {
+      let error = _e as TCustomError;
       console.log("Error in sign-in", error);
       if (error.data) {
-        setErrors(error.data);
+        setErrors(error.data.data);
       } else {
         Alert.alert("Error in sign-in " + error);
       }
@@ -31,15 +34,17 @@ const SignIn = () => {
     }
   };
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView style={tw`bg-primary h-full`}>
       <ScrollView>
-        <View className="w-full min-h-[80vh] justify-center px-4 my-6">
+        <View style={tw`w-full min-h-[80vh] justify-center px-4 my-6`}>
           <Image
             source={images.logo}
             resizeMode="contain"
-            className="w-[115px] h-[35px]"
+            style={tw`w-[115px] h-[35px]`}
           />
-          <Text className="text-2xl text-white font-semibold mt-10 font-psemibold">
+          <Text
+            style={tw`text-2xl text-white font-semibold mt-10 font-psemibold`}
+          >
             Log in to Aora
           </Text>
           <FormField
@@ -73,13 +78,14 @@ const SignIn = () => {
             containerStyles="mt-7"
             loading={isSubmitting}
           />
-          <View className="justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-gray-100 font-pregular">
+          <View style={tw`justify-center pt-5 flex-row gap-2`}>
+            <Text style={tw`text-lg text-gray-100 font-pregular`}>
               Don't have an account
             </Text>
             <Link
+              push
               href={"/sign-up"}
-              className="text-lg font-psemibold text-secondary"
+              style={tw`text-lg font-psemibold text-secondary`}
             >
               Sign Up
             </Link>

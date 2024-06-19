@@ -1,4 +1,6 @@
+import { throwErrorWithData } from "@utils/index";
 import { supabase } from "./supabase";
+import { ErrorCodes } from "@utils/ErrorCodes";
 
 export const signUpWithEmailSupabase = async (
   email: string,
@@ -16,12 +18,21 @@ export const signUpWithEmailSupabase = async (
       },
     });
     if (error) {
-      throw new Error("Error occured in sign up funciton: " + error);
+      return throwErrorWithData(
+        "Error occured in sign up function: " + error.message,
+        {
+          type: ErrorCodes.DBAuthError,
+        }
+      );
     }
     return data;
-  } catch (error: any) {
-    throw new Error(
-      "Error occured in sign up funciton: " + JSON.stringify(error)
+  } catch (_e) {
+    const error = _e as any
+    return throwErrorWithData(
+      "Error occured in sign up funciton:  " + error.message,
+      {
+        type: ErrorCodes.DBAuthError,
+      }
     );
   }
 };
@@ -36,13 +47,21 @@ export const signInWithEmailSupabase = async (
       password,
     });
     if (error) {
-      throw new Error("Error occured in sign in funciton: " + error);
+      return throwErrorWithData(
+        "Error occured in sign in funciton:  " + error.message,
+        {
+          type: ErrorCodes.DBAuthError,
+        }
+      );
     }
-    console.log("User data in sign in function: ", data);
     return data;
-  } catch (error) {
-    throw new Error(
-      "Error occured in sign in funciton: " + JSON.stringify(error as any)
+  } catch (_e) {
+    const error = _e as any;
+    return throwErrorWithData(
+      "Error occured in sign in funciton:  " + error.message,
+      {
+        type: ErrorCodes.DBAuthError,
+      }
     );
   }
 };
@@ -51,10 +70,21 @@ export const getCurrentUser = async () => {
   try {
     const { data, error } = await supabase.auth.getUser();
     if (error) {
-      throw new Error("Error occured in get current user function: " + error);
+      return throwErrorWithData(
+        "Error occured in get current user funciton:  " + error.message,
+        {
+          type: ErrorCodes.DBAuthError,
+        }
+      );
     }
     return data;
-  } catch (error) {
-    throw new Error("Error occured in get current user function: " + error);
+  } catch (_e) {
+    const error = _e as any;
+    return throwErrorWithData(
+      "Error occured in get current user funciton:  " + error.message,
+      {
+        type: ErrorCodes.DBAuthError,
+      }
+    );
   }
 };

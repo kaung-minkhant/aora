@@ -4,9 +4,12 @@ import { Slot, SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { GlobalProvider } from "../context/globalProvider";
+import tw from '@utils/tailwind'
+import { useDeviceContext } from "twrnc";
 
 SplashScreen.preventAutoHideAsync();
 const RootLayout = () => {
+  useDeviceContext(tw)
   const [fontsLoaded, error] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -31,7 +34,7 @@ const RootLayout = () => {
     <>
       {fontsLoaded && (
         <GlobalProvider>
-          <View className="flex-1 bg-primary">
+          <View style={tw`flex-1 bg-primary`}>
             <Stack>
               <Stack.Screen
                 name="index"

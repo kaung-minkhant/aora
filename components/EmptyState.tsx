@@ -3,6 +3,7 @@ import React from "react";
 import { images } from "@constants/index";
 import CustomButton from "@components/CustomButton";
 import { router } from "expo-router";
+import tw from "@utils/tailwind";
 
 interface IEmptyStateProps {
   title: string;
@@ -10,14 +11,14 @@ interface IEmptyStateProps {
 }
 const EmptyState = ({title, subTitle}: IEmptyStateProps) => {
   return (
-    <View className="justify-center items-center px-4">
+    <View style={tw`justify-center items-center px-4`}>
       <Image
         source={images.empty}
-        className="w-[270px] h-[215px]"
+        style={tw`w-[270px] h-[215px]`}
         resizeMode="contain"
       />
-      <Text className="text-xl text-center font-psemibold text-white">{title}</Text>
-      <Text className="font-pmedium text-sm text-gray-100 mt-2">{subTitle}</Text>
+      <Text style={tw`text-xl text-center font-psemibold text-white`}>{title}</Text>
+      <Text style={tw`font-pmedium text-sm text-gray-100 mt-2`}>{subTitle}</Text>
       <CustomButton title={'Create Video'} handlePress={() => router.push('/create')} containerStyles='w-full my-5' />
     </View>
   );
